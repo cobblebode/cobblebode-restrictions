@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 })
 public class BlockDittoCapsMixin {
 
-    @Inject(method = "useOnEntity", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "method_7847", at = @At("HEAD"), cancellable = true, remap = false)
     private void cobblebode$blockDittoCaps(
             ItemStack stack,
             Player player,

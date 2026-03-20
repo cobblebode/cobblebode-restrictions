@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "cobblebode_restrictions",
+  "version": "${version}",
+  "name": "CobbleBode Restrictions",
+  "description": "Bloqueia Bottle Caps em Ditto no Cobblemon Utility+",
+  "authors": ["CobbleBode"],
+  "contact": {},
+  "license": "All Rights Reserved",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.cobblebode.CobbleBodeRestrictions"
+    ]
+  },
+  "mixins": [
+    "cobblebode_restrictions.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}

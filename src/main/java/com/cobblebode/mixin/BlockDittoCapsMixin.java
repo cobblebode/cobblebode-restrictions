@@ -1,11 +1,11 @@
 package com.cobblebode.mixin;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,29 +30,31 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class BlockDittoCapsMixin {
 
     @Inject(method = "useOnEntity", at = @At("HEAD"), cancellable = true)
-    private void cobblebode$blockDittoCaps(ItemStack stack, PlayerEntity player, LivingEntity entity, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+    private void cobblebode$blockDittoCaps(
+            ItemStack stack,
+            Player player,
+            LivingEntity entity,
+            InteractionHand hand,
+            CallbackInfoReturnable<InteractionResult> cir
+    ) {
         try {
             if (player == null || entity == null) {
                 return;
             }
 
-            // Só bloqueia do lado do servidor
-            if (player.getWorld().isClient()) {
+            if (player.level().isClientSide()) {
                 return;
             }
 
-            // Verifica se a entidade alvo é um Pokémon do Cobblemon
             if (!entity.getClass().getName().equals("com.cobblemon.mod.common.entity.pokemon.PokemonEntity")) {
                 return;
             }
 
-            // pokemonEntity.getPokemon()
             Object pokemon = entity.getClass().getMethod("getPokemon").invoke(entity);
             if (pokemon == null) {
                 return;
             }
 
-            // pokemon.getSpecies().getName()
             Object species = pokemon.getClass().getMethod("getSpecies").invoke(pokemon);
             if (species == null) {
                 return;
@@ -67,10 +69,10 @@ public class BlockDittoCapsMixin {
                 return;
             }
 
-            player.sendMessage(Text.literal("§cNão é possível usar esse item nesse pokémon."), false);
-            cir.setReturnValue(ActionResult.FAIL);
+            player.sendSystemMessage(Component.literal("§cNão é possível usar esse item nesse pokémon."));
+            cir.setReturnValue(InteractionResult.FAIL);
         } catch (Throwable ignored) {
-            // Se algo falhar, deixa o item seguir normalmente.
+            // Se algo falhar, deixa seguir normalmente.
         }
     }
 }

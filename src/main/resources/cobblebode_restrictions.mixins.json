@@ -3,7 +3,8 @@
   "package": "com.cobblebode.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "BlockDittoCapsMixin"
+    "BlockDittoCapsMixin",
+    "BlockDittoCandyMixin"
   ],
   "injectors": {
     "defaultRequire": 1

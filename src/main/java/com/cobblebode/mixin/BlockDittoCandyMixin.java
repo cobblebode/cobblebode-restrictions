@@ -74,6 +74,7 @@ public class BlockDittoCandyMixin {
 
             player.sendSystemMessage(Component.literal("§cNão é possível usar esse item nesse pokémon."));
             cir.setReturnValue(InteractionResult.FAIL);
+            cir.cancel();
         } catch (Throwable ignored) {
             // Se algo falhar, deixa seguir normalmente.
         }
